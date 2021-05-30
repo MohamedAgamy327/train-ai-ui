@@ -796,6 +796,9 @@ MIT
 ngx-barcode
 MIT
 
+ngx-file-drag-drop
+MIT
+
 ngx-mat-select-search
 MIT
 MIT License
