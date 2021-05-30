@@ -37,6 +37,7 @@
         "ng2-file-upload": "^1.4.0",
         "ng5-breadcrumb": "0.0.6",
         "ngx-barcode": "^0.3.0",
+        "ngx-file-drag-drop": "^5.1.2",
         "ngx-mat-select-search": "^3.2.0",
         "ngx-material-file-input": "^2.1.1",
         "ngx-material-timepicker": "^5.5.3",
