@@ -11,7 +11,7 @@ export class BinVariablesComponent implements OnInit {
 
   tradeHistory: any;
   coinList: any;
-  tradeHistoryColumns = ['currency', 'txnno', 'status', 'price', 'total', 'date', 'from', 'more'];
+  tradeHistoryColumns = ['currency', 'txnno', 'status', 'price', 'total'];
   cryptoCompareColumns = ['serial_number', 'desktop_name', 'mobile_name', 'price', 'volume', 'tag', 'total_volume', 'market_cap', 'circulating_supply', 'chart', 'change'];
 
 

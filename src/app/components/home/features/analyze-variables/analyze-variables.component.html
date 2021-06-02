@@ -1,21 +1,23 @@
 <div fxLayout="row wrap">
+
+
     <div fxFlex.gt-md="75" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <div class="invoice-list table-list-wrap">
             <mat-card class="pad-t-none">
                 <div class="table-title gene-card-title">
-                    <h4 class="mrgn-b-none">{{'Invoices' | translate}}</h4>
+                    <h4 class="mrgn-b-none">{{'Distribution Analysis' | translate}}</h4>
                 </div>
                 <mat-divider></mat-divider>
                 <div class="table-responsive gene-card-content">
                     <table class="full-wid" mat-table [dataSource]="invoicelist">
                         <ng-container matColumnDef="id">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Invoice Id</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Variable</th>
                             <td mat-cell *matCellDef="let element">
                                 <div>{{element.id}}</div>
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="clientName">
-                            <th mat-header-cell *matHeaderCellDef>Client Name</th>
+                            <th mat-header-cell *matHeaderCellDef>Minimum</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">
                                 <div>
                                     <h6 class="mrgn-b-none">{{element.firstName}} {{element.lastName}}</h6>
@@ -23,7 +25,7 @@
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="accountType">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Account Type</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>1 Percentile</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">
                                 <mat-chip-list>
                                     <mat-chip color="{{element.accountTypeColor}}" selected>{{element.accountType}}</mat-chip>
@@ -31,16 +33,16 @@
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="dateCreated">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Date Created</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>25 Percentile</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.dateCreated | date:'mediumDate'}}
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="dueDate">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Due Date</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>50 Percentile</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.dueDate | date:'mediumDate'}} </td>
                         </ng-container>
                         <ng-container matColumnDef="amount">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Amount</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>100 Percentile</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.amount}} </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedInvoiceColumns"></tr>
@@ -71,38 +73,58 @@
             <div class="gene-card-content trade-crypto crypto-input-prefix">
                 <div>
                     <div class="chart-wrap">
-                        <div class="mrgn-b-xs">
+
+                        <div>
                             <mat-form-field class="full-wid" appearance="outline">
-                                <mat-label>Choose Currency</mat-label>
-                                <span matPrefix class="fa fa-money" aria-hidden="true"></span>
-                                <mat-select value="Bitcoin">
-                                    <mat-option value="Bitcoin">Bitcoin</mat-option>
-                                    <mat-option value="Ethereum">Ethereum</mat-option>
-                                    <mat-option value="EOS">EOS</mat-option>
-                                    <mat-option value="Litecoin">Litecoin</mat-option>
-                                </mat-select>
+                                <mat-label>Datetime Variables</mat-label>
+                                <input value="" class="form-control" matInput type="number" placeholder="Datetime Variables" min="1">
                             </mat-form-field>
                         </div>
-                        <div class="mrgn-b-md">
-                            <div class="rotate-exchange-icon text-center">
-                                <span class="fa fa-exchange inline-block" aria-hidden="true"></span>
-                            </div>
-                        </div>
-                        <div class="mrgn-b-md">
+
+                        <div>
                             <mat-form-field class="full-wid" appearance="outline">
-                                <mat-label>Choose Currency</mat-label>
-                                <span matPrefix class="fa fa-money" aria-hidden="true"></span>
-                                <mat-select value="Ethereum">
-                                    <mat-option value="Bitcoin">Bitcoin</mat-option>
-                                    <mat-option value="Ethereum">Ethereum</mat-option>
-                                    <mat-option value="EOS">EOS</mat-option>
-                                    <mat-option value="Litecoin">Litecoin</mat-option>
-                                </mat-select>
+                                <mat-label>% Most common Value
+                                    < </mat-label>
+                                        <input value="99.9" class="form-control" matInput type="number" placeholder="% Most common Value < " min="1">
                             </mat-form-field>
                         </div>
-                        <div class="evaluated-text success-text">
-                            <span>1 BTC = 0.45373 ETC</span>
+
+                        <div>
+                            <mat-form-field class="full-wid" appearance="outline">
+                                <mat-label>
+                                    information Value >
+                                </mat-label>
+                                <input value="5" class="form-control" matInput type="number" placeholder="information Value " min="1">
+                            </mat-form-field>
                         </div>
+
+                        <div>
+                            <mat-form-field class="full-wid" appearance="outline">
+                                <mat-label>
+                                    abs (correlation)
+                                </mat-label>
+                                <input value="5" class="form-control" matInput type="number" placeholder="    abs (correlation)" min="1">
+                            </mat-form-field>
+                        </div>
+
+                        <div>
+                            <mat-form-field class="full-wid" appearance="outline">
+                                <mat-label>
+                                    Binned Variable only
+                                </mat-label>
+                                <input value="5" class="form-control" matInput type="number" placeholder="  Binned Variable only" min="1">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="button-wrap">
+                            <button mat-raised-button color="primary">Clear</button>
+
+                            <button mat-raised-button color="primary">Default Values</button>
+
+
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -115,17 +137,17 @@
         <div class="tax-rate-list table-list-wrap">
             <mat-card class="pad-t-none">
                 <div class="table-title gene-card-title">
-                    <h4 class="mrgn-b-none">{{'Tax Rates' | translate}}</h4>
+                    <h4 class="mrgn-b-none">{{'Volatility Anaylsis' | translate}}</h4>
                 </div>
                 <mat-divider></mat-divider>
                 <div class="table-responsive gene-card-content">
                     <table class="full-wid" mat-table [dataSource]="taxrates">
                         <ng-container matColumnDef="date">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Date</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Variable</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.date | date:'mediumDate'}} </td>
                         </ng-container>
                         <ng-container matColumnDef="type">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Type</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Std</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">
                                 <mat-chip-list>
                                     <mat-chip color="{{element.TypeColor}}" selected>{{element.type}}</mat-chip>
@@ -133,11 +155,11 @@
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="account">
-                            <th mat-header-cell *matHeaderCellDef>Account</th>
+                            <th mat-header-cell *matHeaderCellDef>Average</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.account}}</td>
                         </ng-container>
                         <ng-container matColumnDef="amount">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Amount</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>% Most common Value </th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.amount}} </td>
                         </ng-container>
 
@@ -162,19 +184,19 @@
         <div class="payment-list table-list-wrap">
             <mat-card class="pad-t-none">
                 <div class="table-title gene-card-title">
-                    <h4 class="mrgn-b-none">{{'Add Tickets' | translate}}</h4>
+                    <h4 class="mrgn-b-none">{{'Correlation Anaylsis' | translate}}</h4>
                 </div>
                 <mat-divider></mat-divider>
                 <div class="table-responsive gene-card-content">
                     <table class="full-wid" mat-table [dataSource]="addtickets">
                         <ng-container matColumnDef="srno">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Sr.No</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Variable</th>
                             <td mat-cell *matCellDef="let element">
                                 <div>{{element.srno}}</div>
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="ticketCode">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Tickets Code</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>IV</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">
                                 <div>
                                     <h6 class="mrgn-b-none">{{element.ticketCode}}</h6>
@@ -182,19 +204,19 @@
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="subject">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Subject</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>WOE Num Miss</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.subject}} </td>
                         </ng-container>
                         <ng-container matColumnDef="date">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>date</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Num Good1</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.date | date:'mediumDate'}} </td>
                         </ng-container>
                         <ng-container matColumnDef="department">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Department</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Woe cate good1</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.department}} </td>
                         </ng-container>
                         <ng-container matColumnDef="status">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Status</th>
+                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Woe num good1</th>
                             <td class="text-nowrap" mat-cell *matCellDef="let element">
                                 <mat-chip-list>
                                     <mat-chip color="{{element.statusColor}}" selected>{{element.status}}</mat-chip>
