@@ -1,1 +1,39 @@
-<p>backtest works!</p>
+<mat-card>
+    <div class="gene-card-title">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="column">
+                <h4>{{'Bar'|translate}}</h4>
+            </div>
+            <span fxFlex></span>
+            <button mat-icon-button>
+        <mat-icon>sync</mat-icon>
+      </button>
+            <button mat-icon-button [matMenuTriggerFor]="menuopt">
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+        </div>
+        <mat-divider></mat-divider>
+    </div>
+    <div class="gene-card-content">
+        <canvas height="200" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType"></canvas>
+    </div>
+</mat-card>
+
+<mat-menu #menuopt="matMenu" x-position="before">
+    <button mat-menu-item>
+    <mat-icon>settings</mat-icon>
+    Settings
+  </button>
+    <button mat-menu-item>
+    <mat-icon>more</mat-icon>
+    View More
+  </button>
+    <button mat-menu-item>
+    <mat-icon>notifications_off</mat-icon>
+    Disable notifications
+  </button>
+    <button mat-menu-item>
+    <mat-icon>exit_to_app</mat-icon>
+    Remove Panel
+  </button>
+</mat-menu>

@@ -32,12 +32,12 @@ export const MenuItemList: MenuItem[] = [
     type: 'link',
     icon: 'repeat_on'
   },
-  {
-    state: 'home/predict',
-    name: 'Predict',
-    type: 'link',
-    icon: 'online_prediction'
-  },
+  // {
+  //   state: 'home/predict',
+  //   name: 'Predict',
+  //   type: 'link',
+  //   icon: 'online_prediction'
+  // },
   {
     state: 'home/backtest',
     name: 'Backtest',
@@ -50,12 +50,12 @@ export const MenuItemList: MenuItem[] = [
     type: 'link',
     icon: 'file_copy'
   },
-  {
-    state: 'home/deploy',
-    name: 'Deploy',
-    type: 'link',
-    icon: 'wifi_protected_setup'
-  }
+  // {
+  //   state: 'home/deploy',
+  //   name: 'Deploy',
+  //   type: 'link',
+  //   icon: 'wifi_protected_setup'
+  // }
 
 
 
