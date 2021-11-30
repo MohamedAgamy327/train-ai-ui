@@ -27,7 +27,7 @@ const routes: Routes = [
       { path: 'predict', component: PredictComponent },
       { path: 'report', component: ReportComponent },
       { path: 'train', component: TrainComponent },
-      { path: 'users', canActivate: [AuthGuard], data: { roles: [RoleEnum.Admin] }, loadChildren: () => import('./features/user/user.module').then(m => m.UserModule) },
+      { path: 'users', loadChildren: () => import('./features/user/user.module').then(m => m.UserModule) },
       {
         path: '', redirectTo: '', pathMatch: 'full'
       }

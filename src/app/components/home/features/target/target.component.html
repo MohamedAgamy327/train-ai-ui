@@ -7,49 +7,22 @@
 
 <div *ngIf="isLoading">
 
-    <div class="transactiion-list table-list-wrap">
+    <div class="gene-card-content pad-t-none">
         <div class="table-responsive">
-            <table class="full-wid" mat-table [dataSource]="tableTabData.transactionList">
-                <ng-container matColumnDef="transid">
-                    <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Probability</th>
-                    <td mat-cell *matCellDef="let element">
-                        <div>{{element.transid}}</div>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="date">
-                    <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Default</th>
-                    <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.date | date:'mediumDate'}} </td>
-                </ng-container>
-                <ng-container matColumnDef="account">
-                    <th mat-header-cell *matHeaderCellDef>Num Good 1</th>
-                    <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.account}}</td>
-                </ng-container>
-                <ng-container matColumnDef="type">
-                    <th mat-header-cell *matHeaderCellDef>Num Miss 1</th>
-                    <td class="text-nowrap" mat-cell *matCellDef="let element">
-                        <mat-chip-list>
-                            <mat-chip color="{{element.typeColor}}" selected>{{element.type}}</mat-chip>
-                        </mat-chip-list>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="amount">
-                    <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Cat Good 1</th>
-                    <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.amount}} </td>
-                </ng-container>
-                <ng-container matColumnDef="debit">
-                    <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Num Good 2</th>
-                    <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.debit}} </td>
-                </ng-container>
-                <ng-container matColumnDef="credit">
-                    <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Num Good 3</th>
-                    <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.credit}} </td>
-                </ng-container>
-                <ng-container matColumnDef="balance">
-                    <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Date Time 1</th>
-                    <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.balance}} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedTransactionColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedTransactionColumns"></tr>
+            <table class="table table-hover table-middle th-fw-light mb-0">
+
+                <thead>
+                    <tr>
+                        <th *ngFor="let header of getHeaders()">{{header}}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of data">
+                        <td *ngFor="let key of getHeaders()">{{item[key]}}</td>
+                    </tr>
+                </tbody>
+
             </table>
         </div>
     </div>
