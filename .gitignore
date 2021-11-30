@@ -35,6 +35,7 @@ TRAIN-API/API/API.csproj.user
 TRAIN-API/.vs/TRAIN-API/config/applicationhost.config
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
