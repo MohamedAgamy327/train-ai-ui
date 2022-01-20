@@ -1,29 +1,26 @@
-<div>
-    <ngx-file-drag-drop [formControl]="fileControl" activeBorderColor="#3F51B5" (valueChanged)="onValueChange($event)">
-    </ngx-file-drag-drop>
-
-</div>
-
-
-<div *ngIf="isLoading">
-
-    <div class="gene-card-content pad-t-none">
-        <div class="table-responsive">
-            <table class="table table-hover table-middle th-fw-light mb-0">
-
-                <thead>
-                    <tr>
-                        <th *ngFor="let header of getHeaders()">{{header}}</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr *ngFor="let item of data">
-                        <td *ngFor="let key of getHeaders()">{{item[key]}}</td>
-                    </tr>
-                </tbody>
-
-            </table>
+<mat-card>
+    <mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column">
+            <mat-form-field fxFlex="30" appearance="outline">
+                <mat-label>Choose Column</mat-label>
+                <mat-select [formControl]="chooseColumnCtrl">
+                    <mat-option *ngFor="let column of displayedColumns" [value]="column">
+                        {{column}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <ngx-file-drag-drop fxFlex="45" [formControl]="fileControl" activeBorderColor="#3F51B5" (valueChanged)="onValueChange($event)">
+            </ngx-file-drag-drop>
         </div>
-    </div>
-</div>
+    </mat-card-content>
+</mat-card>
+
+
+<mat-table #table [dataSource]="dataSource">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
+        <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
+        <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>

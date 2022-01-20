@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
 import { FileValidators } from 'ngx-file-drag-drop';
-import { PageTitleService, CoreService, PlaceHolderService, UploadService } from 'src/app/core/services';
+import { PageTitleService, UploadService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-target',
@@ -11,14 +10,18 @@ import { PageTitleService, CoreService, PlaceHolderService, UploadService } from
 })
 export class TargetComponent implements OnInit {
 
-  isLoading: boolean;
   fileFormData: FormData;
-  data: any;
+  columns: Array<any>;
+  displayedColumns: Array<any>;
+  dataSource: any;
+
+  public chooseColumnCtrl: FormControl = new FormControl();
 
   constructor(
     private pageTitleService: PageTitleService,
-    private uploadService: UploadService,
-    private placeHolderService: PlaceHolderService) { }
+    private uploadService: UploadService) {
+    this.onChosenColumnChange();
+  }
 
   fileControl = new FormControl(
     [],
@@ -26,58 +29,68 @@ export class TargetComponent implements OnInit {
     FileValidators.maxFileCount(2)]
   );
 
+  onChosenColumnChange(): void {
+    this.chooseColumnCtrl.valueChanges.subscribe((value) => {
+      if (value) {
+
+
+        this.dataSource = this.dataSource.map(obj => ({ ...obj, probability: null }));
+
+        this.columns.unshift({
+          columnDef: 'probability',
+          header: 'probability',
+          cell: (element: any) => `${element['probability'] ? element['probability'] : ``}`
+        });
+
+        this.displayedColumns = this.columns.map(c => c.columnDef);
+
+        const index = this.displayedColumns.findIndex(d => d == value);
+        this.displayedColumns.splice(index, 1);
+        this.displayedColumns.splice(1, 0, value);
+
+      }
+    });
+  }
+
   onValueChange(file: File[]) {
     if (file && file.length > 0) {
-
       this.fileFormData = new FormData();
       const reader = new FileReader();
       reader.readAsDataURL(file[0]);
       this.fileFormData.append('upload-file', file[0], file[0].name);
       this.upload(this.fileFormData);
-      this.isLoading = true;
     }
     else {
-      this.isLoading = false;
+      this.dataSource = null;
     }
-
-    // if (this.isLoading) {
-    //   this.placeHolderService.getTableTabContent().
-    //     subscribe((res: any) => {
-    //       this.data = res.expenseCategory;
-    //       console.log(this.data);
-    //     },
-    //       err => console.log(err),
-    //       () => this.data
-    //     );
-    // }
   }
+
   ngOnInit(): void {
     this.pageTitleService.setTitle('Target');
-    this.fileControl.valueChanges.subscribe(() =>
-      console.log(this.fileControl.value, this.fileControl.valid)
-    );
   }
-
 
   upload(file: any) {
     this.uploadService.upload(file).subscribe(
       (res: any) => {
-        this.data = res;
-      });
-  }
-
-  getHeaders() {
-    let headers: string[] = [];
-    if (this.data) {
-      this.data.forEach((value) => {
-        Object.keys(value).forEach((key) => {
-          if (!headers.find((header) => header == key)) {
-            headers.push(key)
+        const columns = res
+          .reduce((columns: any, row: any) => {
+            return [...columns, ...Object.keys(row)]
+          }, [])
+          .reduce((columns: any, column: any) => {
+            return columns.includes(column)
+              ? columns
+              : [...columns, column]
+          }, []);
+        this.columns = columns.map(column => {
+          return {
+            columnDef: column,
+            header: column,
+            cell: (element: any) => `${element[column] ? element[column] : ``}`
           }
         })
-      })
-    }
-    return headers;
+        this.displayedColumns = this.columns.map(c => c.columnDef);
+        this.dataSource = res.slice(0, 100);
+      });
   }
 
 }

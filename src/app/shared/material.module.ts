@@ -46,10 +46,12 @@ import { TourMatMenuModule } from 'ngx-tour-md-menu';
 import { MomentUtcDateAdapter } from 'src/app/core/helpers';
 import { MatGridListResponsive } from '../core/directives';
 import { NgxFileDragDropModule } from 'ngx-file-drag-drop';
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [MatGridListResponsive],
   imports: [
+    CdkTableModule,
     CdkTreeModule,
     MatInputModule,
     MatButtonModule,
@@ -94,6 +96,7 @@ import { NgxFileDragDropModule } from 'ngx-file-drag-drop';
     NgxFileDragDropModule
   ],
   exports: [
+    CdkTableModule,
     MatInputModule, MatButtonModule, MatSidenavModule,
     MatToolbarModule, MatIconModule, MatDialogModule,
     MatTableModule, MatBottomSheetModule, MatSnackBarModule,
