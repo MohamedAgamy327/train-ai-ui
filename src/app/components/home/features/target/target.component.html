@@ -4,7 +4,7 @@
             <mat-form-field fxFlex="30" appearance="outline">
                 <mat-label>Choose Column</mat-label>
                 <mat-select [formControl]="chooseColumnCtrl">
-                    <mat-option *ngFor="let column of displayedColumns" [value]="column">
+                    <mat-option *ngFor="let column of columnsList" [value]="column">
                         {{column}}
                     </mat-option>
                 </mat-select>
@@ -16,11 +16,15 @@
 </mat-card>
 
 
-<mat-table #table [dataSource]="dataSource">
+<table #table [dataSource]="dataSource" mat-table>
     <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
         <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
         <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
+
+
+</table>
+
+<mat-paginator #paginator [pageSizeOptions]="[100,200,300]" showFirstLastButtons></mat-paginator>

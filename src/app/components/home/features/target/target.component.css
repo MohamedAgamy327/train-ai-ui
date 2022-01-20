@@ -20,6 +20,7 @@ ngx-file-drag-drop {
 
 .mat-header-cell {
     background-color: #333;
+    color: #fff;
 }
 
 .mat-row,
