@@ -16,14 +16,16 @@ export class TargetComponent implements OnInit {
   fileFormData: FormData;
   columns: Array<any>;
   displayedColumns: Array<any>;
-  date: any;
+  data: any;
   @ViewChild('paginator') paginator: MatPaginator;
-
   columnsList: string[];
-
   public chooseColumnCtrl: FormControl = new FormControl();
-
   dataSource: MatTableDataSource<any>;
+  fileControl = new FormControl(
+    [],
+    [FileValidators.required,
+    FileValidators.maxFileCount(2)]
+  );
 
   constructor(
     private pageTitleService: PageTitleService,
@@ -32,19 +34,17 @@ export class TargetComponent implements OnInit {
     this.onChosenColumnChange();
   }
 
-  fileControl = new FormControl(
-    [],
-    [FileValidators.required,
-    FileValidators.maxFileCount(2)]
-  );
+  ngOnInit(): void {
+    this.pageTitleService.setTitle('Target');
+  }
 
   onChosenColumnChange(): void {
     this.chooseColumnCtrl.valueChanges.subscribe((value) => {
       if (value) {
 
         if (!this.displayedColumns.find(d => d == 'probability')) {
-          this.date = this.date.map(obj => ({ ...obj, probability: null }));
-
+          this.data = this.data.map(obj => ({ probability: null, ...obj }));
+          this.setDataLocalStorage();
           this.columns.unshift({
             columnDef: 'probability',
             header: 'probability',
@@ -57,7 +57,6 @@ export class TargetComponent implements OnInit {
         const index = this.displayedColumns.findIndex(d => d == value);
         this.displayedColumns.splice(index, 1);
         this.displayedColumns.splice(1, 0, value);
-
       }
     });
   }
@@ -75,14 +74,10 @@ export class TargetComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.pageTitleService.setTitle('Target');
-  }
-
   upload(file: any) {
     this.uploadService.upload(file).subscribe(
       (res: any) => {
-        this.date = res;
+        this.data = res;
         const columns = res
           .reduce((columns: any, row: any) => {
             return [...columns, ...Object.keys(row)]
@@ -101,13 +96,19 @@ export class TargetComponent implements OnInit {
         })
         this.displayedColumns = this.columns.map(c => c.columnDef);
         this.columnsList = this.columns.map(c => c.columnDef);
-        this.dataSource = new MatTableDataSource(this.date);
+        this.dataSource = new MatTableDataSource(this.data);
         this.dataSource.paginator = this.paginator;
+        this.setDataLocalStorage();
       });
   }
 
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.date, 'Data');
+    this.excelService.exportAsExcelFile(this.data, 'Data');
+  }
+
+
+  setDataLocalStorage() {
+    localStorage.setItem("data", JSON.stringify(this.data));
   }
 
 }

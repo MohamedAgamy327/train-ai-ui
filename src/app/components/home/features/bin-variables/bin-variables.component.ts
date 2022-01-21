@@ -41,6 +41,9 @@ export class BinVariablesComponent implements OnInit {
     this.pageTitleService.setTitle('Bin Variables');
     this.refreshDataVariables();
     this.refreshDataBinningAnalysis();
+
+    const data = JSON.parse(localStorage.getItem("data") || "[]");
+    console.log(data);
   }
 
 
