@@ -1,6 +1,10 @@
 <div fxLayout="row" fxLayoutAlign="start start">
 
     <div class="table-cont" fxFlex="49">
+        <div class="table-title gene-card-title">
+            <h4 class="mrgn-b-none">{{'Data Variables' | translate}}</h4>
+        </div>
+        <mat-divider></mat-divider>
         <table mat-table [dataSource]="dataVariablesSource">
 
             <ng-container matColumnDef="type">
@@ -92,6 +96,12 @@
 </div>
 
 <div class="table-cont">
+
+    <div class="table-title gene-card-title">
+        <h4 class="mrgn-b-none">{{'Binning Analysis' | translate}}</h4>
+    </div>
+    <mat-divider></mat-divider>
+
     <table mat-table [dataSource]="binningAnalysisSource">
 
         <ng-container matColumnDef="variable">

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { PageTitleService, CoreService, PlaceHolderService } from 'src/app/core/services';
+import { FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { PageTitleService, PlaceHolderService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-analyze-variables',
@@ -9,42 +10,44 @@ import { PageTitleService, CoreService, PlaceHolderService } from 'src/app/core/
 })
 export class AnalyzeVariablesComponent implements OnInit {
 
-  tableTabData: any;
-  invoicelist: any;
-  taxrates: any;
-  addtickets: any;
+  distribution: any;
+  volatility: any;
+  correlation: any;
 
-  displayedInvoiceColumns: string[] = ['id', 'clientName', 'accountType', 'dateCreated', 'dueDate', 'amount'];
-  displayedTaxColumns: string[] = ['date', 'account', 'type', 'amount', 'credit', 'balance'];
+  distributionColumns = ['variable', 'include', 'manual', 'minimum', 'percentile1', 'percentile5', 'percentile10', 'percentile25', 'percentile50', 'percentile75', 'percentile90', 'percentile95', 'percentile99', 'maximum'];
+  volatilityColumns = ['variable', 'include', 'manual', 'std', 'average', 'mostCommonValue'];
+  correlationColumns = ['variable', 'bin', 'obs#', 'obs%', 'binValue', 'target', 'trend', 'iv'];
 
-  displayedAddTicketsColumns: string[] = ['srno', 'ticketCode', 'subject', 'date', 'department', 'status',];
+  distributionSource: MatTableDataSource<any>;
+  volatilitySource: MatTableDataSource<any>;
+  correlationSource: MatTableDataSource<any>;
 
-  constructor(private pageTitleService: PageTitleService,
-    private translate: TranslateService,
-    private service: CoreService,
-    private placeHolderService: PlaceHolderService) { }
+  public mostNumCtrl: FormControl = new FormControl();
+  public informationNumCtrl: FormControl = new FormControl();
+  public absNumCtrl: FormControl = new FormControl();
+  public binnedCheckboxCtrl: FormControl = new FormControl();
+
+  constructor(
+    private pageTitleService: PageTitleService) {
+    this.refreshDistribution();
+    this.refreshVolatility();
+    this.refreshCorrelation();
+  }
 
   ngOnInit(): void {
-
     this.pageTitleService.setTitle('Analyze Variables');
+  }
 
-    this.placeHolderService.getInvoiceListContent().
-      subscribe(res => { this.invoicelist = res },
-        err => console.log(err),
-        () => this.invoicelist
-      );
+  refreshDistribution() {
+    this.distributionSource = new MatTableDataSource(this.distribution);
+  }
 
-    this.placeHolderService.getTaxRateList().
-      subscribe(res => { this.taxrates = res },
-        err => console.log(err),
-        () => this.taxrates
-      );
+  refreshVolatility() {
+    this.volatilitySource = new MatTableDataSource(this.volatility);
+  }
 
-    this.placeHolderService.getTicketList().
-      subscribe(res => { this.addtickets = res },
-        err => console.log(err),
-        () => this.addtickets
-      );
+  refreshCorrelation() {
+    this.correlationSource = new MatTableDataSource(this.correlation);
   }
 
 }

@@ -17,6 +17,8 @@ export class BinVariablesComponent implements OnInit {
   dataVariablesColumns = ['type', 'missing', 'unique', 'binAs', 'manual'];
   binningAnalysisColumns = ['variable', 'bin', 'obs#', 'obs%', 'binValue', 'target', 'trend', 'iv'];
 
+  dataVariablesSource: MatTableDataSource<any>;
+  binningAnalysisSource: MatTableDataSource<any>;
 
   public binRadioCtrl: FormControl = new FormControl('BinOnlyMissing');
   public maxNumCtrl: FormControl = new FormControl();
@@ -29,13 +31,8 @@ export class BinVariablesComponent implements OnInit {
   public missingNumCtrl: FormControl = new FormControl();
   public uniqueNumCtrl: FormControl = new FormControl();
 
-
-  dataVariablesSource: MatTableDataSource<any>;
-  binningAnalysisSource: MatTableDataSource<any>;
-
   constructor(
-    private pageTitleService: PageTitleService,
-    private translate: TranslateService) { }
+    private pageTitleService: PageTitleService) { }
 
   ngOnInit(): void {
     this.pageTitleService.setTitle('Bin Variables');
