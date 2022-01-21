@@ -18,7 +18,7 @@ export class BinVariablesComponent implements OnInit {
   binningAnalysisColumns = ['variable', 'bin', 'obs#', 'obs%', 'binValue', 'target', 'trend', 'iv'];
 
 
-  public binRadioCtrl: FormControl = new FormControl();
+  public binRadioCtrl: FormControl = new FormControl('BinOnlyMissing');
   public maxNumCtrl: FormControl = new FormControl();
   public binNumCtrl: FormControl = new FormControl();
   public lowerCheckboxCtrl: FormControl = new FormControl();
@@ -41,9 +41,7 @@ export class BinVariablesComponent implements OnInit {
     this.pageTitleService.setTitle('Bin Variables');
     this.refreshDataVariables();
     this.refreshDataBinningAnalysis();
-
     const data = JSON.parse(localStorage.getItem("data") || "[]");
-    console.log(data);
   }
 
 

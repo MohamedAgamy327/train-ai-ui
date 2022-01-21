@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="start start">
 
-    <div fxFlex="49">
+    <div class="table-cont" fxFlex="49">
         <table mat-table [dataSource]="dataVariablesSource">
 
             <ng-container matColumnDef="type">
@@ -33,13 +33,95 @@
             <tr mat-header-row *matHeaderRowDef="dataVariablesColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: dataVariablesColumns;"></tr>
         </table>
-
     </div>
 
-    <div fxFlex="49" fxFlexOffset="2">
-        <div fxLayout="column" fxLayoutAlign="start start">
 
-        </div>
-    </div>
+    <mat-card style="max-height: 40vh" fxFlex="49" fxFlexOffset="2">
+        <mat-card-content>
+            <div fxLayout="row">
 
+                <div fxFlex="32" fxLayout="column" fxLayoutAlign="start start">
+                    <label> Numeric Variable </label>
+                    <mat-radio-group style="margin-bottom: 8px;" [formControl]="binRadioCtrl">
+                        <mat-radio-button value="BinAll">Bin all</mat-radio-button>
+                        <mat-radio-button value="BinOnlyMissing">Bin only missing</mat-radio-button>
+                    </mat-radio-group>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Max $ bins</mat-label>
+                        <input type="number" matInput [formControl]="maxNumCtrl">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Bin # decimal places</mat-label>
+                        <input type="number" matInput [formControl]="binNumCtrl">
+                    </mat-form-field>
+
+                    <mat-checkbox [formControl]="lowerCheckboxCtrl">Lower bound all = -∞</mat-checkbox>
+                    <mat-checkbox [formControl]="upperCheckboxCtrl">Upper bound all = +∞</mat-checkbox>
+
+                </div>
+                <div fxFlex="32" fxFlexOffset="2" fxLayout="column" fxLayoutAlign="start start">
+                    <label> Categorical Variables </label>
+                    <mat-checkbox style="margin-bottom: 8px;" [formControl]="binCheckboxCtrl">Bin all</mat-checkbox>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Max # bins</mat-label>
+                        <input type="number" matInput [formControl]="maxNum2Ctrl">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="32" fxFlexOffset="2" fxLayout="column" fxLayoutAlign="start start">
+                    <label> Binning Exclusions</label>
+                    <mat-checkbox style="margin-bottom: 8px;" [formControl]="datetimeCheckboxCtrl">Datetime variables
+                    </mat-checkbox>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>% missing values ≥ </mat-label>
+                        <input type="number" matInput [formControl]="missingNumCtrl">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label># unique values ＜ </mat-label>
+                        <input type="number" matInput [formControl]="uniqueNumCtrl">
+                    </mat-form-field>
+
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+</div>
+
+<div class="table-cont">
+    <table mat-table [dataSource]="dataVariablesSource">
+
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef> Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="missing">
+            <th mat-header-cell *matHeaderCellDef> % missing </th>
+            <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="unique">
+            <th mat-header-cell *matHeaderCellDef> # unique values </th>
+            <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="binAs">
+            <th mat-header-cell *matHeaderCellDef> Bin as </th>
+            <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="manual">
+            <th mat-header-cell *matHeaderCellDef> Manual/Panel </th>
+            <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="dataVariablesColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: dataVariablesColumns;"></tr>
+    </table>
 </div>
