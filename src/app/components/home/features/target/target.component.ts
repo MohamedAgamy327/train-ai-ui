@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FileValidators } from 'ngx-file-drag-drop';
 import { PageTitleService, UploadService } from 'src/app/core/services';
+import { ExcelService } from 'src/app/core/services/excel.service';
 
 @Component({
   selector: 'app-target',
@@ -26,6 +27,7 @@ export class TargetComponent implements OnInit {
 
   constructor(
     private pageTitleService: PageTitleService,
+    private excelService: ExcelService,
     private uploadService: UploadService) {
     this.onChosenColumnChange();
   }
@@ -102,6 +104,10 @@ export class TargetComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.date);
         this.dataSource.paginator = this.paginator;
       });
+  }
+
+  exportAsXLSX(): void {
+    this.excelService.exportAsExcelFile(this.date, 'Data');
   }
 
 }

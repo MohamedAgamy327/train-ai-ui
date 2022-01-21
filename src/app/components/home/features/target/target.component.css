@@ -1,9 +1,10 @@
-ngx-file-drag-drop {
+/* ngx-file-drag-drop {
     height: 120px;
-}
+} */
 
-.mat-table {
-    overflow-x: scroll;
+.table-cont {
+    overflow: auto;
+    max-height: 60vh;
 }
 
 .mat-cell,

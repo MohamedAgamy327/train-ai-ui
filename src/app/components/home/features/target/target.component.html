@@ -16,15 +16,25 @@
 </mat-card>
 
 
-<table #table [dataSource]="dataSource" mat-table>
-    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
-        <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
-        <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+<div class="table-cont">
+    <table #table [dataSource]="dataSource" mat-table>
+        <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
+            <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
+            <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
 
-</table>
+    </table>
+</div>
 
 <mat-paginator #paginator [pageSizeOptions]="[100,200,300]" showFirstLastButtons></mat-paginator>
+
+<mat-card>
+    <mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column">
+            <button (click)="exportAsXLSX()" mat-raised-button color="primary">{{'Export To Excel' | translate}}</button>
+        </div>
+    </mat-card-content>
+</mat-card>

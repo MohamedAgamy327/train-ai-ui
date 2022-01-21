@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { PageTitleService, CoreService, PlaceHolderService } from 'src/app/core/services';
 
@@ -9,38 +11,45 @@ import { PageTitleService, CoreService, PlaceHolderService } from 'src/app/core/
 })
 export class BinVariablesComponent implements OnInit {
 
-  tradeHistory: any;
-  coinList: any;
-  tradeHistoryColumns = ['currency', 'txnno', 'status', 'price', 'total'];
-  cryptoCompareColumns = ['serial_number', 'desktop_name', 'mobile_name', 'price', 'volume', 'tag', 'total_volume', 'market_cap', 'circulating_supply', 'chart', 'change'];
+  dataVariables: any;
+  binningAnalysis: any;
+
+  dataVariablesColumns = ['type', 'missing', 'unique', 'binAs', 'manual'];
+  binningAnalysisColumns = ['variable', 'bin', 'obs#', 'obs%', 'binValue', 'target', 'trend', 'iv'];
 
 
-  // Exchange Statistics
-  statisticConfig = { slidesToShow: 1, fade: true, slidesToScroll: 1, arrows: false, dots: false, autoplay: true, autoplaySpeed: 2000 };
+  public binRadioCtrl: FormControl = new FormControl();
+  public maxNumCtrl: FormControl = new FormControl();
+  public binNumCtrl: FormControl = new FormControl();
+  public lowerCheckboxCtrl: FormControl = new FormControl();
+  public upperCheckboxCtrl: FormControl = new FormControl();
+  public binCheckboxCtrl: FormControl = new FormControl();
+  public maxNum2Ctrl: FormControl = new FormControl();
+  public datetimeCheckboxCtrl: FormControl = new FormControl();
+  public missingNumCtrl: FormControl = new FormControl();
+  public uniqueNumCtrl: FormControl = new FormControl();
 
 
+  dataVariablesSource: MatTableDataSource<any>;
+  binningAnalysisSource: MatTableDataSource<any>;
 
-  constructor(private pageTitleService: PageTitleService,
-    private translate: TranslateService,
-    private service: CoreService,
-    private placeHolderService: PlaceHolderService) { }
+  constructor(
+    private pageTitleService: PageTitleService,
+    private translate: TranslateService) { }
 
   ngOnInit(): void {
     this.pageTitleService.setTitle('Bin Variables');
-
-    this.placeHolderService.getTradeHistoryContent().
-      subscribe(res => { this.tradeHistory = res },
-        err => console.log(err),
-        () => this.tradeHistory
-      );
-
-    this.placeHolderService.getCoinList().
-      subscribe(res => { this.coinList = res },
-        err => console.log(err)
-      );
+    this.refreshDataVariables();
+    this.refreshDataBinningAnalysis();
   }
 
 
+  refreshDataVariables() {
+    this.dataVariablesSource = new MatTableDataSource(this.dataVariables);
+  }
 
+  refreshDataBinningAnalysis() {
+    this.binningAnalysisSource = new MatTableDataSource(this.binningAnalysis);
+  }
 
 }
