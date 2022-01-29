@@ -6,5 +6,5 @@ export * from './page-title.service';
 export * from './api/user.service';
 export * from './api/account.service';
 export * from './place-holder.service';
-export * from './api/upload.service';
+export * from './api/calc.service';
 

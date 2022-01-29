@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FileValidators } from 'ngx-file-drag-drop';
-import { PageTitleService, UploadService } from 'src/app/core/services';
+import { PageTitleService, CalcService } from 'src/app/core/services';
 import { ExcelService } from 'src/app/core/services/excel.service';
 
 @Component({
@@ -11,12 +11,11 @@ import { ExcelService } from 'src/app/core/services/excel.service';
   templateUrl: './target.component.html',
   styleUrls: ['./target.component.css']
 })
-export class TargetComponent implements OnInit {
+export class TargetComponent implements OnInit, AfterViewInit {
 
   fileFormData: FormData;
   columns: Array<any>;
   displayedColumns: Array<any>;
-  data: any;
   @ViewChild('paginator') paginator: MatPaginator;
   columnsList: string[];
   public chooseColumnCtrl: FormControl = new FormControl();
@@ -30,7 +29,7 @@ export class TargetComponent implements OnInit {
   constructor(
     private pageTitleService: PageTitleService,
     private excelService: ExcelService,
-    private uploadService: UploadService) {
+    private calcService: CalcService) {
     this.onChosenColumnChange();
   }
 
@@ -38,13 +37,22 @@ export class TargetComponent implements OnInit {
     this.pageTitleService.setTitle('Target');
   }
 
+
+  ngAfterViewInit(): void {
+    const data = JSON.parse(localStorage.getItem("data") || "[]");
+    if (data.length > 0) {
+      this.setDataToTable(data);
+    }
+  }
+
   onChosenColumnChange(): void {
     this.chooseColumnCtrl.valueChanges.subscribe((value) => {
       if (value) {
-
+        localStorage.setItem('target', value);
         if (!this.displayedColumns.find(d => d == 'probability')) {
-          this.data = this.data.map(obj => ({ probability: null, ...obj }));
-          this.setDataLocalStorage();
+          let data = JSON.parse(localStorage.getItem("data") || "[]");
+          data = data.map(obj => ({ probability: null, ...obj }));
+          this.setDataLocalStorage(data);
           this.columns.unshift({
             columnDef: 'probability',
             header: 'probability',
@@ -75,40 +83,49 @@ export class TargetComponent implements OnInit {
   }
 
   upload(file: any) {
-    this.uploadService.upload(file).subscribe(
+    this.calcService.upload(file).subscribe(
       (res: any) => {
-        this.data = res;
-        const columns = res
-          .reduce((columns: any, row: any) => {
-            return [...columns, ...Object.keys(row)]
-          }, [])
-          .reduce((columns: any, column: any) => {
-            return columns.includes(column)
-              ? columns
-              : [...columns, column]
-          }, []);
-        this.columns = columns.map(column => {
-          return {
-            columnDef: column,
-            header: column,
-            cell: (element: any) => `${element[column] ? element[column] : ``}`
-          }
-        })
-        this.displayedColumns = this.columns.map(c => c.columnDef);
-        this.columnsList = this.columns.map(c => c.columnDef);
-        this.dataSource = new MatTableDataSource(this.data);
-        this.dataSource.paginator = this.paginator;
-        this.setDataLocalStorage();
+        localStorage.removeItem('data');
+        localStorage.removeItem('binVar');
+        localStorage.removeItem('target');
+        this.setDataToTable(res);
+        this.setDataLocalStorage(res);
       });
   }
 
+  setDataToTable(data: any) {
+    const columns = data
+      .reduce((columns: any, row: any) => {
+        return [...columns, ...Object.keys(row)]
+      }, [])
+      .reduce((columns: any, column: any) => {
+        return columns.includes(column)
+          ? columns
+          : [...columns, column]
+      }, []);
+    this.columns = columns.map(column => {
+      return {
+        columnDef: column,
+        header: column,
+        cell: (element: any) => `${element[column] != null ? element[column] : ``}`
+      }
+    })
+    this.displayedColumns = this.columns.map(c => c.columnDef);
+    this.columnsList = this.columns.filter(d => d.columnDef != 'probability').map(c => c.columnDef);
+    this.chooseColumnCtrl.setValue(localStorage.getItem('target'));
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+  }
+
   exportAsXLSX(): void {
-    this.excelService.exportAsExcelFile(this.data, 'Data');
+    let data = JSON.parse(localStorage.getItem("data") || "[]");
+    this.excelService.exportAsExcelFile(data, 'Data');
+  }
+
+  setDataLocalStorage(data: any) {
+    localStorage.setItem("data", JSON.stringify(data));
   }
 
 
-  setDataLocalStorage() {
-    localStorage.setItem("data", JSON.stringify(this.data));
-  }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { PageTitleService, PlaceHolderService } from 'src/app/core/services';
+import { CalcService, PageTitleService, PlaceHolderService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-analyze-variables',
@@ -28,7 +28,8 @@ export class AnalyzeVariablesComponent implements OnInit {
   public binnedCheckboxCtrl: FormControl = new FormControl();
 
   constructor(
-    private pageTitleService: PageTitleService) {
+    private pageTitleService: PageTitleService,
+    private calcService: CalcService) {
     this.refreshDistribution();
     this.refreshVolatility();
     this.refreshCorrelation();
@@ -36,6 +37,7 @@ export class AnalyzeVariablesComponent implements OnInit {
 
   ngOnInit(): void {
     this.pageTitleService.setTitle('Analyze Variables');
+    this.variableAnalyze();
   }
 
   refreshDistribution() {
@@ -48,6 +50,26 @@ export class AnalyzeVariablesComponent implements OnInit {
 
   refreshCorrelation() {
     this.correlationSource = new MatTableDataSource(this.correlation);
+  }
+
+  variableAnalyze() {
+
+    let data = JSON.parse(localStorage.getItem("data") || "[]");
+    data = data.map(function (item) {
+      delete item.probability;
+      return item;
+    });
+    const model = {
+      data: data,
+      target: localStorage.getItem('target')
+    };
+
+    console.log(data)
+
+    this.calcService.variableAnalyze(model).subscribe(
+      (res: any) => {
+        console.log(JSON.parse(res.correlationVariable))
+      });
   }
 
 }
