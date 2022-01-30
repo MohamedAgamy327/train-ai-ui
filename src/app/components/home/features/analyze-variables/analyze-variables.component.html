@@ -13,75 +13,75 @@
 
                 <ng-container matColumnDef="variable">
                     <th mat-header-cell *matHeaderCellDef> Variable </th>
-                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.variable}} </td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="include">
                     <th mat-header-cell *matHeaderCellDef> Include/Exclude </th>
-                    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.include_exclude.name}} </td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="manual">
                     <th mat-header-cell *matHeaderCellDef> Manual/Panel </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.include_exclude_panel.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="minimum">
                     <th mat-header-cell *matHeaderCellDef> Minimum</th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.minimum | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="percentile1">
                     <th mat-header-cell *matHeaderCellDef>1 Percentile </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_1 | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="percentile5">
                     <th mat-header-cell *matHeaderCellDef>5 Percentile </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_5 | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="percentile10">
                     <th mat-header-cell *matHeaderCellDef>10 Percentile </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_10 | number : '1.0-2'}} </td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="percentile25">
                     <th mat-header-cell *matHeaderCellDef>25 Percentile </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_25 | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="percentile50">
                     <th mat-header-cell *matHeaderCellDef>50 Percentile </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_50 | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="percentile75">
                     <th mat-header-cell *matHeaderCellDef>75 Percentile </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_75 | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="percentile90">
                     <th mat-header-cell *matHeaderCellDef>90 Percentile </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_90 | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="percentile95">
                     <th mat-header-cell *matHeaderCellDef>95 Percentile </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_95 | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="percentile99">
                     <th mat-header-cell *matHeaderCellDef>99 Percentile </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_99 | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="maximum">
                     <th mat-header-cell *matHeaderCellDef> Maximum</th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.maximum | number : '1.0-2'}} </td>
                 </ng-container>
 
 
@@ -182,34 +182,34 @@
 
                 <ng-container matColumnDef="variable">
                     <th mat-header-cell *matHeaderCellDef> Variable </th>
-                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.variable}} </td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="include">
                     <th mat-header-cell *matHeaderCellDef> Include/Exclude </th>
-                    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.include_exclude.name }} </td>
                 </ng-container>
 
 
                 <ng-container matColumnDef="manual">
                     <th mat-header-cell *matHeaderCellDef> Manual/Panel </th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.include_exclude_panel.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="std">
                     <th mat-header-cell *matHeaderCellDef> Std</th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.std | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="average">
                     <th mat-header-cell *matHeaderCellDef> average</th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.average | number : '1.0-2'}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="mostCommonValue">
                     <th mat-header-cell *matHeaderCellDef> % most common value</th>
-                    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.perc_most_common_value * 100 | number : '1.0-0'}} % </td>
                 </ng-container>
 
 
@@ -219,7 +219,7 @@
         </div>
 
     </div>
-    <!-- <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <div fxFlex.gt-md="50" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
         <div class="payment-list table-list-wrap">
             <mat-card class="pad-t-none">
                 <div class="table-title gene-card-title">
@@ -227,54 +227,30 @@
                 </div>
                 <mat-divider></mat-divider>
                 <div class="table-responsive gene-card-content">
-                    <table class="full-wid" mat-table [dataSource]="addtickets">
-                        <ng-container matColumnDef="srno">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Variable</th>
-                            <td mat-cell *matCellDef="let element">
-                                <div>{{element.srno}}</div>
-                            </td>
+                    <table #table [dataSource]="correlationSource" mat-table>
+                        <ng-container *ngFor="let column of correlationColumns" [cdkColumnDef]="column.columnDef">
+
+                            <mat-header-cell *cdkHeaderCellDef>{{ column.header }}
+                            </mat-header-cell>
+
+                            <mat-cell *cdkCellDef="let row"> {{ convert( column.cell(row))}}
+                            </mat-cell>
+
                         </ng-container>
-                        <ng-container matColumnDef="ticketCode">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>IV</th>
-                            <td class="text-nowrap" mat-cell *matCellDef="let element">
-                                <div>
-                                    <h6 class="mrgn-b-none">{{element.ticketCode}}</h6>
-                                </div>
-                            </td>
-                        </ng-container>
-                        <ng-container matColumnDef="subject">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>WOE Num Miss</th>
-                            <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.subject}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="date">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Num Good1</th>
-                            <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.date | date:'mediumDate'}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="department">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Woe cate good1</th>
-                            <td class="text-nowrap" mat-cell *matCellDef="let element">{{element.department}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="status">
-                            <th class="text-nowrap" mat-header-cell *matHeaderCellDef>Woe num good1</th>
-                            <td class="text-nowrap" mat-cell *matCellDef="let element">
-                                <mat-chip-list>
-                                    <mat-chip color="{{element.statusColor}}" selected>{{element.status}}</mat-chip>
-                                </mat-chip-list>
-                            </td>
-                        </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="displayedAddTicketsColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedAddTicketsColumns"></tr>
+                        <mat-header-row *matHeaderRowDef="displayedCorrelationColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedCorrelationColumns;"></mat-row>
                     </table>
                 </div>
             </mat-card>
         </div>
-    </div> -->
+    </div>
 </div>
 
 <mat-card>
     <mat-card-content>
         <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column">
             <button mat-raised-button color="primary">{{'Export Results' | translate}}</button>
+            <button mat-raised-button color="primary" (click)="variableAnalyzeOk()">{{'Ok' | translate}}</button>
         </div>
     </mat-card-content>
 </mat-card>

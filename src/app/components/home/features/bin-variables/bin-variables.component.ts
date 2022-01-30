@@ -58,6 +58,7 @@ export class BinVariablesComponent implements OnInit {
         this.dataVariables = res;
         localStorage.setItem("binVar", JSON.stringify(this.dataVariables));
         this.refreshDataVariables();
+
       });
   }
 
@@ -90,11 +91,9 @@ export class BinVariablesComponent implements OnInit {
       data: data,
       binAnalysis: JSON.parse(localStorage.getItem("binAnalysis") || "[]")
     };
-    console.log(model);
 
     this.calcService.binVariablesOkButton(model).subscribe(
       (res: any) => {
-        console.log(res);
         localStorage.setItem("data", JSON.stringify(res));
       });
   }
