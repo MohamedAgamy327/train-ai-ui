@@ -121,7 +121,6 @@ export class AnalyzeVariablesComponent implements OnInit {
     this.calcService.variableAnalyzeOk(model).subscribe(
       (res: any) => {
         localStorage.setItem("data", JSON.stringify(res));
-        console.log(res);
       });
 
   }

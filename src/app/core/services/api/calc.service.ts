@@ -45,5 +45,8 @@ export class CalcService {
     return this.http.post<any>(`${environment.serverUrl}trainData`, model);
   }
 
+  trainDataOk(model: any): Observable<any> {
+    return this.http.post<any>(`${environment.serverUrl}trainDataOk`, model);
+  }
 
 }

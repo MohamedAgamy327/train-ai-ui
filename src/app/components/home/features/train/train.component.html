@@ -42,64 +42,122 @@
                 <h4 class="mrgn-b-none">{{'Variable Selection' | translate}}</h4>
             </div>
             <div fxLayout="row" fxLayoutAlign="start start">
-                <div fxFlex="60">
-                    <div fxLayout="column">
+                <div class="table-cont" fxFlex="59">
+                    <table mat-table [dataSource]="panelVarsSource">
 
-                        <div class="table-cont">
-
-                            <table mat-table [dataSource]="panelVarsSource">
-
-                                <ng-container matColumnDef="variable">
-                                    <th mat-header-cell *matHeaderCellDef> Variable </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.variable}} </td>
-                                </ng-container>
+                        <ng-container matColumnDef="variable">
+                            <th mat-header-cell *matHeaderCellDef> Variable </th>
+                            <td mat-cell *matCellDef="let element"> {{element.variable}} </td>
+                        </ng-container>
 
 
-                                <ng-container matColumnDef="include_exclude">
-                                    <th mat-header-cell *matHeaderCellDef> include_exclude </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.include_exclude}} </td>
-                                </ng-container>
+                        <ng-container matColumnDef="include_exclude">
+                            <th mat-header-cell *matHeaderCellDef> include_exclude </th>
+                            <td mat-cell *matCellDef="let element"> {{element.include_exclude.name}} </td>
+                        </ng-container>
 
 
-                                <ng-container matColumnDef="manually_set">
-                                    <th mat-header-cell *matHeaderCellDef> manually_set </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.manually_set}} </td>
-                                </ng-container>
+                        <ng-container matColumnDef="manually_set">
+                            <th mat-header-cell *matHeaderCellDef> manually_set </th>
+                            <td mat-cell *matCellDef="let element"> {{element.manually_set}} </td>
+                        </ng-container>
 
-                                <tr mat-header-row *matHeaderRowDef="panelVarsColumns"></tr>
-                                <tr mat-row *matRowDef="let row; columns: panelVarsColumns;"></tr>
-                            </table>
-                        </div>
-
-                    </div>
+                        <tr mat-header-row *matHeaderRowDef="panelVarsColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: panelVarsColumns;"></tr>
+                    </table>
                 </div>
-                <div fxFlex="40">
-                    <div fxLayout="column">
-                        <div class="table-cont">
+                <div class="table-cont" fxFlex="38" fxFlexOffset="3">
+                    <table mat-table [dataSource]="varPropertySource">
 
-                            <table mat-table [dataSource]="varPropertySource">
-
-                                <ng-container matColumnDef="property">
-                                    <th mat-header-cell *matHeaderCellDef> property </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.property}} </td>
-                                </ng-container>
+                        <ng-container matColumnDef="property">
+                            <th mat-header-cell *matHeaderCellDef> property </th>
+                            <td mat-cell *matCellDef="let element"> {{element.property}} </td>
+                        </ng-container>
 
 
-                                <ng-container matColumnDef="value">
-                                    <th mat-header-cell *matHeaderCellDef> value </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.value}} </td>
-                                </ng-container>
+                        <ng-container matColumnDef="value">
+                            <th mat-header-cell *matHeaderCellDef> value </th>
+                            <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+                        </ng-container>
 
-                                <tr mat-header-row *matHeaderRowDef="varPropertyColumns"></tr>
-                                <tr mat-row *matRowDef="let row; columns: varPropertyColumns;"></tr>
-                            </table>
-                        </div>
-                    </div>
+                        <tr mat-header-row *matHeaderRowDef="varPropertyColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: varPropertyColumns;"></tr>
+                    </table>
+
                 </div>
             </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-radio-group style="margin-bottom: 8px; display: block;" [formControl]="binRadioCtrl">
+                    <mat-radio-button style=" margin-bottom: 8px; display: block;" value="SelectAll">Select all</mat-radio-button>
+                    <mat-radio-button style="display: block;" value="SelectBinnedVariablesOnly">Select Binned Variables Only
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <button mat-raised-button color="primary">{{'Untrain' | translate}}</button>
+                <button (click)="trainData()" mat-raised-button color="primary">{{'Train/Retrain' | translate}}</button>
+            </div>
+
         </mat-card-content>
     </mat-card>
 
 
 
 </div>
+
+<div fxLayout="row" fxLayoutAlign="start start">
+
+
+    <div fxFlex="32" class="table-cont">
+
+        <table mat-table [dataSource]="kpisVariablesSource">
+
+            <ng-container matColumnDef="kpi">
+                <th mat-header-cell *matHeaderCellDef> kpi </th>
+                <td mat-cell *matCellDef="let element"> {{element.kpi}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="value">
+                <th mat-header-cell *matHeaderCellDef> value </th>
+                <td mat-cell *matCellDef="let element"> {{element.value * 100 | number : '1.0-2'}}% </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="kpisVariablesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: kpisVariablesColumns;"></tr>
+        </table>
+    </div>
+
+    <div fxFlex="32" fxFlexOffset="1" class="table-cont">
+
+        <table mat-table [dataSource]="collaborationVariablesSource">
+
+            <ng-container matColumnDef="calibration_criterion">
+                <th mat-header-cell *matHeaderCellDef> calibration_criterion </th>
+                <td mat-cell *matCellDef="let element"> {{element.calibration_criterion}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="value">
+                <th mat-header-cell *matHeaderCellDef> value </th>
+                <td mat-cell *matCellDef="let element"> {{element.value | number : '1.0-2'}}% </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="collaborationVariablesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: collaborationVariablesColumns;"></tr>
+        </table>
+    </div>
+
+
+</div>
+
+<mat-card>
+    <mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayout.xs="column">
+            <button mat-raised-button color="primary">{{'Export Results' | translate}}</button>
+            <button (click)="trainDataOk()" mat-raised-button color="primary">{{'Ok' | translate}}</button>
+        </div>
+    </mat-card-content>
+</mat-card>
