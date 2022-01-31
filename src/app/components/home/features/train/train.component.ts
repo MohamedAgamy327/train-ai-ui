@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CalcService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-train',
@@ -296,13 +297,78 @@ export class TrainComponent implements OnInit {
     }
   };
 
-  constructor() { }
+  constructor(
+    private calcService: CalcService
+  ) { }
 
   ngOnInit() {
     // this.pageTitleService.setTitle("Ng2Charts");
     setTimeout(() => {
       this.showChart = true;
     }, 0)
+
+    this.trainScreen();
+    this.trainData();
+
   }
+
+  trainScreen() {
+    let data = JSON.parse(localStorage.getItem("data") || "[]");
+    let binAnalysis = JSON.parse(localStorage.getItem("binAnalysis") || "[]");
+    let target = localStorage.getItem("target");
+    let invalidVars = JSON.parse(localStorage.getItem("invalidVars") || "[]");
+    let modelQualifiedVarLabels = JSON.parse(localStorage.getItem("modelQualifiedVarLabels") || "[]");
+
+    data = data.map(function (item) {
+      delete item.probability;
+      return item;
+    });
+
+    const model = {
+      data: data,
+      invalidVars: invalidVars,
+      modelQualifiedVarLabels: modelQualifiedVarLabels,
+      binAnalysis: binAnalysis,
+      target: target
+    };
+
+    this.calcService.trainScreen(model).subscribe(
+      (res: any) => {
+        // console.log(res);
+        // console.log(JSON.parse(res.panelVars));
+        // console.log(JSON.parse(res.varProperty));
+      });
+
+  }
+
+  trainData() {
+    let data = JSON.parse(localStorage.getItem("data") || "[]");
+    console.log(data);
+    let binVar = JSON.parse(localStorage.getItem("binVar") || "[]");
+    let target = localStorage.getItem("target");
+    let invalidVars = JSON.parse(localStorage.getItem("invalidVars") || "[]");
+    let modelQualifiedVarLabels = JSON.parse(localStorage.getItem("modelQualifiedVarLabels") || "[]");
+
+    data = data.map(function (item) {
+      delete item.probability;
+      return item;
+    });
+
+    const model = {
+      data: data,
+      modelQualifiedVarLabels: modelQualifiedVarLabels,
+      invalidVars: invalidVars,
+      binVar: binVar,
+      target: target
+    };
+
+    this.calcService.trainData(model).subscribe(
+      (res: any) => {
+        console.log(res);
+        // console.log(JSON.parse(res.dataProfilers));
+      });
+
+  }
+
 
 }

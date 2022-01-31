@@ -37,5 +37,13 @@ export class CalcService {
     return this.http.post<any>(`${environment.serverUrl}variableAnalyzeOk`, model);
   }
 
+  trainScreen(model: any): Observable<any> {
+    return this.http.post<any>(`${environment.serverUrl}trainScreen`, model);
+  }
+
+  trainData(model: any): Observable<any> {
+    return this.http.post<any>(`${environment.serverUrl}trainData`, model);
+  }
+
 
 }
