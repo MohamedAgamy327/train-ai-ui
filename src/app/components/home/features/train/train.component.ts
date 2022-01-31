@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CalcService } from 'src/app/core/services';
+import { FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { CalcService, PageTitleService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-train',
@@ -8,308 +10,39 @@ import { CalcService } from 'src/app/core/services';
 })
 export class TrainComponent implements OnInit {
 
-  showChart: boolean;
+  public manualCtrl: FormControl = new FormControl(22.00);
 
-  /*
-     ---------- Bar Chart ----------
-  */
+  panelVars: any;
+  varProperty: any;
 
-  public barChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  public barChartType: string = 'bar';
-  public barChartLegend: boolean = false;
+  panelVarsColumns = ['variable', 'include_exclude', 'manually_set'];
+  varPropertyColumns = ['property', 'value'];
 
-  public barChartData: any[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
-  ];
-
-  public barChartOptions: any = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
-
-  barChartColors: Array<any> = [{
-    backgroundColor: 'rgba(59, 85, 230, 1)',
-    borderColor: 'rgba(59, 85, 230, 1)',
-    pointBackgroundColor: 'rgba(59, 85, 230, 1)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(59, 85, 230, 1)'
-  }, {
-    backgroundColor: 'rgba(235, 78, 54, 1)',
-    borderColor: 'rgba(235, 78, 54, 1)',
-    pointBackgroundColor: 'rgba(235, 78, 54, 1)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(235, 78, 54, 1)'
-  }, {
-    backgroundColor: 'rgba(67, 210, 158, 0.2)',
-    borderColor: 'rgba(67, 210, 158, 1)',
-    pointBackgroundColor: 'rgba(67, 210, 158, 1)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(67, 210, 158, 0.8)'
-  }];
-
-  //Horizontal Bar
-  public barHorizontalChartType: string = 'horizontalBar';
-  public barHorizontalChartLegend: boolean = false;
-
-  public barHorizontalChartOptions: any = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
-
-  //Stacked Bar
-  public barStackChartOptions: any = {
-    scaleShowVerticalLines: false,
-    responsive: true,
-    scales: {
-      xAxes: [{
-        stacked: true,
-      }],
-      yAxes: [{
-        stacked: true
-      }]
-    }
-  };
-
-  /*
-     ---------- Line Chart ----------
-  */
-
-  public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChartOptions: any = {
-    responsive: true
-  };
-  public lineChartLegend: boolean = false;
-  public lineChartType: string = 'line';
-
-  public lineChartData: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-    { data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' }
-  ];
-
-  lineChartColors: Array<any> = [{
-    backgroundColor: 'rgba(59, 85, 230, 0.2)',
-    borderColor: 'rgba(59, 85, 230, 1)',
-    pointBackgroundColor: 'rgba(59, 85, 230, 1)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(59, 85, 230, 0.8)'
-  }, {
-    backgroundColor: 'rgba(235, 78, 54, 0.2)',
-    borderColor: 'rgba(235, 78, 54, 1)',
-    pointBackgroundColor: 'rgba(235, 78, 54, 1)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(235, 78, 54, 0.8)'
-  }, {
-    backgroundColor: 'rgba(67, 210, 158, 0.2)',
-    borderColor: 'rgba(67, 210, 158, 1)',
-    pointBackgroundColor: 'rgba(67, 210, 158, 1)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(67, 210, 158, 0.8)'
-  }];
-
-  //Stepped Line Chart
-  lineChartSteppedData: Array<any> = [{
-    data: [65, 59, 80, 81, 56, 55, 40],
-    label: 'Series A',
-    borderWidth: 1,
-    fill: false,
-    steppedLine: true
-  }, {
-    data: [28, 48, 40, 19, 86, 27, 90],
-    label: 'Series B',
-    borderWidth: 1,
-    fill: false,
-    steppedLine: true
-  }, {
-    data: [18, 48, 77, 9, 100, 27, 40],
-    label: 'Series C',
-    borderWidth: 1,
-    fill: false,
-    steppedLine: true
-  }];
-
-  //Point Chart
-  linePointChartData: Array<any> = [{
-    data: [65, 59, 80, 81, 56, 55, 40],
-    label: 'Series A',
-    borderWidth: 1,
-    fill: false,
-    pointRadius: 10,
-    pointHoverRadius: 15,
-    showLine: false
-  }, {
-    data: [28, 48, 40, 19, 86, 27, 90],
-    label: 'Series B',
-    borderWidth: 1,
-    fill: false,
-    pointRadius: 10,
-    pointHoverRadius: 15,
-    showLine: false
-  }, {
-    data: [18, 48, 77, 9, 100, 27, 40],
-    label: 'Series C',
-    borderWidth: 1,
-    fill: false,
-    pointRadius: 10,
-    pointHoverRadius: 15,
-    showLine: false
-  }];
-
-  linePointChartOptions: any = {
-    elements: {
-      point: {
-        pointStyle: 'rectRot',
-      }
-    }
-  };
-
-  /*
-     ---------- Pie Chart ----------
-  */
-
-  public pieChartData: number[] = [300, 500, 100];
-  public pieChartType: string = 'pie';
-  pieChartColors: any[] = [{
-    backgroundColor: ['#3B55E6', '#EB4E36', '#43D29E', '#32CBD8', '#E8C63B']
-  }];
-  PieChartOptions: any = {
-    elements: {
-      arc: {
-        borderWidth: 0
-      }
-    }
-  }
-
-  /*
-     ---------- Doughnut Chart ----------
-  */
-  public doughnutChartData: number[] = [350, 450, 100];
-  public doughnutChartType: string = 'doughnut';
-
-  /*
-     ----------Polar Area Chart ----------
-  */
-  public polarAreaChartLabels: string[] = ['Download Sales', 'In-Store Sales', 'Mail Sales', 'Telesales', 'Corporate Sales'];
-  public polarAreaChartData: number[] = [300, 500, 100, 40, 120];
-  public polarAreaLegend: boolean = false;
-  public polarAreaChartType: string = 'polarArea';
-
-  /*
-     ---------- Radar Chart ----------
-  */
-  public radarChartLabels: string[] = ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'];
-  public radarChartData: any = [
-    { data: [65, 59, 90, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 96, 27, 100], label: 'Series B' }
-  ];
-  public radarChartType: string = 'radar';
-
-  /*
-     ---------- Bubble Chart ----------
-  */
-  bubbleChartData: Array<any> = [{
-    data: [{
-      x: 6,
-      y: 5,
-      r: 15,
-    }, {
-      x: 5,
-      y: 4,
-      r: 10,
-    }, {
-      x: 8,
-      y: 4,
-      r: 6,
-    }, {
-      x: 8,
-      y: 4,
-      r: 6,
-    }, {
-      x: 5,
-      y: 14,
-      r: 14,
-    }, {
-      x: 5,
-      y: 6,
-      r: 8,
-    }, {
-      x: 4,
-      y: 2,
-      r: 10,
-    }],
-    label: 'Series A',
-    borderWidth: 1
-  }];
-
-  bubbleChartType = 'bubble';
-  public bubbleChartOptions: any = {
-    responsive: true,
-    elements: {
-      points: {
-        borderWidth: 1,
-        borderColor: 'rgb(0, 0, 0)'
-      }
-    }
-  };
-
-  /*
-     ---------- Mixed Chart ----------
-  */
-  mixedPointChartData: Array<any> = [{
-    data: [6, 5, 8, 8, 5, 5, 4],
-    label: 'Series A',
-    borderWidth: 1,
-    type: 'line',
-    fill: false
-  }, {
-    data: [5, 4, 4, 2, 6, 2, 5],
-    label: 'Series B',
-    borderWidth: 1,
-    type: 'bar',
-  }];
-
-  mixedChartOptions: any = {
-    responsive: true,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          color: 'rgba(0,0,0,0.02)',
-          zeroLineColor: 'rgba(0,0,0,0.02)'
-        }
-      }],
-      yAxes: [{
-        gridLines: {
-          color: 'rgba(0,0,0,0.02)',
-          zeroLineColor: 'rgba(0,0,0,0.02)'
-        },
-        ticks: {
-          beginAtZero: true,
-          suggestedMax: 9,
-        }
-      }]
-    }
-  };
+  panelVarsSource: MatTableDataSource<any>;
+  varPropertySource: MatTableDataSource<any>;
 
   constructor(
+    private pageTitleService: PageTitleService,
     private calcService: CalcService
   ) { }
 
   ngOnInit() {
-    // this.pageTitleService.setTitle("Ng2Charts");
-    setTimeout(() => {
-      this.showChart = true;
-    }, 0)
+    this.pageTitleService.setTitle("Train Variables");
+
+    this.refreshPanelVars();
+    this.refreshVarProperty();
 
     this.trainScreen();
     this.trainData();
 
+  }
+
+  refreshPanelVars() {
+    this.panelVarsSource = new MatTableDataSource(this.panelVars);
+  }
+
+  refreshVarProperty() {
+    this.varPropertySource = new MatTableDataSource(this.varProperty);
   }
 
   trainScreen() {
@@ -319,7 +52,7 @@ export class TrainComponent implements OnInit {
     let invalidVars = JSON.parse(localStorage.getItem("invalidVars") || "[]");
     let modelQualifiedVarLabels = JSON.parse(localStorage.getItem("modelQualifiedVarLabels") || "[]");
 
-    data = data.map(function (item) {
+    data = data.map(function (item: any) {
       delete item.probability;
       return item;
     });
@@ -334,22 +67,22 @@ export class TrainComponent implements OnInit {
 
     this.calcService.trainScreen(model).subscribe(
       (res: any) => {
-        // console.log(res);
-        // console.log(JSON.parse(res.panelVars));
-        // console.log(JSON.parse(res.varProperty));
+        this.panelVars = JSON.parse(res.panelVars);
+        this.varProperty = JSON.parse(res.varProperty);
+        this.refreshPanelVars();
+        this.refreshVarProperty();
       });
 
   }
 
   trainData() {
     let data = JSON.parse(localStorage.getItem("data") || "[]");
-    console.log(data);
     let binVar = JSON.parse(localStorage.getItem("binVar") || "[]");
     let target = localStorage.getItem("target");
     let invalidVars = JSON.parse(localStorage.getItem("invalidVars") || "[]");
     let modelQualifiedVarLabels = JSON.parse(localStorage.getItem("modelQualifiedVarLabels") || "[]");
 
-    data = data.map(function (item) {
+    data = data.map(function (item: any) {
       delete item.probability;
       return item;
     });
